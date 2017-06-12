@@ -1,0 +1,375 @@
+<html>
+<title>Minigal Class documentation</title>
+<style>
+<!-- style for documentation <<< -->
+html {
+	background-color: #aaaaaa;
+}
+body {
+	color: #000000;
+	background-color: #aaaaaa;
+	font-family: verdana, helvetica, arial;
+	font-size: 10px;
+}
+h3 {
+	text-align: center;
+}
+div.shead {
+	color: #000000;
+	border: 1px solid #555555;
+	font-weight: bold;
+	margin-left: 5px;
+	margin-right: 5px;
+	padding: 5px;
+}
+div.section {
+	color: #000000;
+	background-color: #9999aa;
+	margin-left: 15px;
+	margin-right: 15px;
+	margin-top: 5px;
+	margin-bottom: 15px;
+	padding-left: 4px;
+	padding-right: 4px;
+	padding-bottom: 1px;
+	padding-top: 1px;
+}
+div.codeblock {
+	color: #000000;
+	background-color: #bbbbbb;
+	padding: 5px;
+	border: 1px solid black;
+	margin: 25px;
+	padding: 10px;
+}
+th {
+	background-color: #888888;
+	color: #000000;
+}
+td {
+	font-family: verdana, helvetica, arial;
+	vertical-align: top;
+	font-size: 10px;
+	border: 1px solid #bbbbbb;
+}
+p {
+	text-align: justify;
+}
+</style>
+<!-- >>> -->
+</head>
+<body>
+<h3>Minigal Class documentation</h3>
+<div class="shead">What is this?</div>
+<!--  <<< -->
+<div class="section"><p>
+Minigal provides a web gallery class that can also be used as a reqlly quick,
+simple, droping web gallery for amateurs. You can include it in your php
+file and use the exposed class, or simply reference it directly to have it
+display your images in a gallery with thumbnails and a navigation bar.
+</div>
+<!-- >>> -->
+<div class="shead">But why?</div>
+<!-- <<< -->
+<div class="section"><p>
+I wanted a simple gallery php script that could just be dropped into a 
+directory and it would, by default, take care of the basics. I also wanted
+to make it able to read a config file for ease of configuration, and I wanted
+to be able to drive it from the URL, if need be. The minigal.php file
+accomplishes all of this. Finally, I wanted to wrap the whole thing as a class
+so that someone whose needs are <i>almost</i> met by the drop-in version could
+use the class in their own script to make something a little flashier. Also,
+a person with some wits could use this class to generate thumbnail images for
+some other reason. If they really wished to do so.
+</p>
+</div>
+<!-- >>> -->
+<div class="shead">About style and other such things</div>
+<!-- <<< -->
+<div class="section"><p>
+	I tend to do just about all of my coding in VIM. Actually, I stick to using
+	the graphical version (GVIM), but sometimes make short trips to the land
+	of the console. My reasons are simple: I need a uniform development 
+	environment on win32 and linux (because I'm forced to use the first, and
+	I love to use the second), and I needed something powerful, yet simple
+	and, quite importantly, free. Not just free as in beer -- free as in
+	licensing. I believe that the days of closed-source applications are
+	over. Commercial apps can still be written: a coder has to eat and feed
+	his wife and all that. But your clients deserve disclosure on the source, 
+	should you be abducted by aliens or something similar. Or even just so they
+	can also hire a hacker to implement features you didn't think of. But
+	enough of that.</p>
+	<p>Also, whilst VIM may give an initially steep learning curve, and
+	seem to contain unnecessary keyboard work, you will find that other
+	editors become annoying after you find the true power in vim. Also, very
+	few other editors are as ready to adapt to the coder's wishes.</p>
+	<p>The point is that you might notice a few commented out &lt;&lt;&lt;'s
+	and corresponding &gt;&gt;&gt;'s. This is not an angle-bracket fetish: it's
+	my choice for fold markers in vim (thanks to a friend) because curly braces
+	cause problems in Tcl (even when commented), and tend to mess up the
+	brace-matching for languages that use braces for code blocks, since
+	vim cannot always tell what is a code brace, and what is a fold brace.
+	You also might notice that I tend to stick to an 80 column line. This can
+	make some sections of deep code a little short on space, but it's something
+	I do as a matter of style (thanks to the same friend). It makes for
+	easier reading on a terminal, and means that the code is more easily
+	available to anyone who has time to waste on it.</p>
+</div>
+<!-- >>> -->
+<div class="shead">Where to begin?</div>
+<!--- <<< -->
+<div class="section"><p>
+Well, the simplest case would be top drop this into a directory containing
+images, and just browse to the php file. As long as you still call it 
+minigal.php, the script detects that it is being run as such, and goes
+into a &quot;self-contrained&quot; mode, generating the thumbnails,
+navigation and display all by itself. You can alter this default behaviour
+by feeding arguments on the URL, or in a file called minigal_conf.php,
+to be found in the same directory as the script that is loaded from
+the url. We'll examine these two approaches separately. First, let's have
+a look at the possible variables and values that can be given to minigal.php.
+</p>
+</div>
+<!-- >>> -->
+<div class="shead">Control variables</div>
+<!-- <<< -->
+<div class="section"><p>
+	Most of the method interface to the minigal class are achieved through
+	arrays of arguments. Simply because it allows you to specify whatever 
+	arguments you want to specify, in whatever order you want. Kind of like
+	the way Python works. This means that you will often see the following
+	kind of method call:
+	<div class="codeblock"><code>
+	$obj->method(array(<br>
+		"index1"		=>	"value1", <br>
+		"index2"		=>	"value2",<br>
+	));
+	</code>
+	</div><p>
+	When I refer to arguments by name, you will be specifying them like this.
+	You can, of course, define the array before doing the method call, and just
+	give the array as the only argument  -- I just think that the code is 
+	clearer the first way.</p>
+	<p>This also means that the _GET array can be treated as an instantiation
+	array for the class -- and in fact, this is what happens when you use
+	minigal in a self-contrained manner (check out the code at the end of
+	the class file, if you don't believe me).</p>
+	<p>Possible setting values are:
+	<table align="center">
+		<tr><th>Setting</th><th>Influence</th><th>Default</th></tr>
+		<tr>
+			<td>title</td>
+			<td>The title of the gallery page to be created.
+			</td>
+			<td>Image gallery</td>
+		</tr><tr>
+			<td>dir</td>
+			<td>The directory to look at to generate the gallery for. Must
+				be a dir that the script can actually read from, and may
+				just be a relative directory. So if you had three galleries,
+				you could show them all separately with links like:
+				<code>
+				&lt;a href=&quot;minigal.php?dir=dir1&quot;&gt;Gallery 1&lt;a&gt;
+				&lt;a href=&quot;minigal.php?dir=dir2&quot;&gt;Gallery 2&lt;a&gt;
+				&lt;a href=&quot;minigal.php?dir=dir3&quot;&gt;Gallery 3&lt;a&gt;
+				</code>
+				in your main page where you tell people about why they should
+				look at your galleries  (:
+			</td>
+			<td>current dir (.)</td>
+		</tr>
+		<tr>
+			<td>thumb_l</td>
+			<td>length of the longest side for thumbnail images, measured
+				in pixels (leave off the px)</td>
+			<td>100</td>
+		</tr>
+		<tr>
+			<td>disp_l</td>
+			<td>length of the longest side, for the displayed image.</td>
+			<td>Not set -- defaults to let images be their natural size.</td>
+		</tr>
+		<tr>
+			<td>timg</td>
+			<td>Image to generate a thumbnail of -- may even be a remote
+				image. If timg is specified, then the class <i>only</i> makes
+				that thumbnail inline, and no gallery -- this is how minigal
+				makes her thumbnails, with self-references.</td>
+			<td>Not set. Don't set unless you really want an inline image.</td>
+		</tr>
+		<tr>
+			<td>css</td>
+			<td>path to a stylesheet to include, if required. Note that if
+				a default.css is found in the current path, it is included 
+				in addition to this file.
+			</td>
+			<td>Not set</td>
+		</tr>
+		<tr>
+			<td>thumbs_w</td>
+			<td>Width of thumbs navigation sidebar, in pixels.</td>
+			<td>200 -- works quite well.</td>
+		</tr>
+		<tr>
+			<td>thumbs_h</td>
+			<td>Height of thumbs navigation sidebar, in pixels.</td>
+			<td>450</td>
+		</tr>
+		<tr>
+			<td>thumbs_top</td>
+			<td>Top of thumbs navigation sidebar, in pixels. Note that
+				the sidebar and display image are positioned absolutely,
+				so this makes a big difference.</td>
+			<td>10</td>
+		</td>
+		<tr>
+			<td>heading</td>
+			<td>Short heading text to be found in the heading area, above the
+				thumbs navigator. Because of absolute sizing and positioning,
+				you want to keep this quite short to prevent text overrunning
+				the heading box.
+			</td>
+			<td>Gallery</td>
+		</tr>
+		<tr>
+			<td>show_fnames</td>
+			<td>Boolean as to whether or not to show image file names under 
+				the relevant image. Possible vallues are 1 and 0</td>
+			<td>1</td>
+		</tr>
+		<tr>
+			<td>selected</td>
+			<td>Name of selected file.</td>
+			<td>First image file in gallery directory</td>
+		</tr>
+		<tr>
+			<td>disp_top</td>
+			<td>Absolute position, in pixels of top of display area.</td>
+			<td>Defaults to align with the top of the heading box.</td>
+		</tr>
+		<tr>
+			<td>thumbs_l</td>
+			<td>Absolute position, in pixels of left of thumbs navigation
+				box. </td>
+			<td>20</td>
+		</tr>
+		<tr>
+			<td>thumb_title_height</td>
+			<td>Tweak to help with positioning the thumbs navigator such that
+				the currently selected image thumbnail is visible in the
+				navigator box. Basically, this is the height, in pixels,
+				that is accounted for for the filename line, if there is
+				one. If you find that the re-alignment is sifficently off, 
+				then you can alter this number to help out.</td>
+			<td>18</td>
+		</tr>
+		<tr>
+			<td>tip_delay</td>
+			<td>time, in milliseconds, that the hovering dhtml tips should
+				stay onscreen for, until disappearing</td>
+			<td>5000</td>
+		</tr>
+	</table>
+</div>
+<!-- >>> -->
+<div class="shead">Specifying the variables</div>
+<!-- <<< -->
+<div class="section"><p>
+You can specify the above variables as elements in an array given to the
+class to instantiate itself with (when you are using the class in another
+php script) or on the URL line (when using the class in self-contrained mode).
+You may also include them in the minigal_conf.php file, which is looked for
+by minigal irrespective of whether or not the file is self-contrained.
+</p>
+<p>Examples:
+<ol><li>URL
+<div class="codeblock">
+<code>
+	http://myserver.com/galleries/minigal.php?dir=cats_and_dogs&amp;title=Cats+and+Dogs&amp;heading=Soooo+Cute
+</code>
+</div>
+</li>
+<li>instantiating the class within php code
+<div class="codeblock">
+<code>
+	$mygal=new Minigal(array(<br>
+	"dir"	=&gt;	"cats_and_dogs",<br>
+	"title"	=&gt;	"Cats and Dogs",<br>
+	"heading" =&gt;	"Soooo cute",<br>
+	));
+</code>
+</div>
+</li>
+<li>the minigal_conf.php file
+<div class="codeblock">
+<code>
+	&lt;?php<br>
+	$options = array(<br>
+	"dir"	=&gt;	"cats_and_dogs",<br>
+	"title"	=&gt;	"Cats and Dogs",<br>
+	"heading" =&gt;	"Soooo cute",<br>
+	);<br>
+	?&gt;
+</code>
+</div>
+</li>
+</ol>
+</div>
+<!-- >>> -->
+<div class="shead">Tooltip texts</div>
+<!-- <<< -->
+<div class="section"><p>
+As an added feature, you can add dhtml tooltips to your images, with text about
+the image, which may be quite nice for your visitors. This can be done in 
+php code by manually setting the titles and texts member arrays of the
+instantiated minigal class:
+<div class="codeblock">
+<code>
+$mygal = new Minigal();<br>
+$mygal-&gt;titles=array(<br>
+&quot;img1.jpg&quot; =&gt; &quot;First image&quot;,<br>
+&quot;img2.jpg&quot; =&gt; &quot;Second image&quot;,<br>
+);
+$mygal-&gt;texts=array(<br>
+&quot;img1.jpg&quot; =&gt; &quot;This is the first image that I created&quot;,<br>
+&quot;img2.jpg&quot; =&gt; &quot;This is a picture of my cat!&quot;,<br>
+);
+</code>
+</div>
+or, when using the minigal_conf.php file, by setting the same arrays in code:
+<div class="codeblock">
+<code>
+&lt;?php<br>
+$titles=array(<br>
+&quot;img1.jpg&quot; =&gt; &quot;First image&quot;,<br>
+&quot;img2.jpg&quot; =&gt; &quot;Second image&quot;,<br>
+);<br>
+$texts=array(<br>
+&quot;img1.jpg&quot; =&gt; &quot;This is the first image that I created&quot;,<br>
+&quot;img2.jpg&quot; =&gt; &quot;This is a picture of my cat!&quot;,<br>
+);<br>
+?&gt;
+</code>
+</div>
+Texts and titles cannot be set on the URL -- besides, a lot of browsers can't
+handle a url line longer than 2000 characters, which would limit the usefulness
+of such an approach.
+</p>
+</div>
+<!-- >>> -->
+<div class="shead">Usage</div>
+<!-- <<< -->
+<div class="section"><p>
+Usage of the gallery is quite intuitive -- the browsing individual can
+either select an image from the thumbnail navigator, or use the navigation
+buttons to go (in order) to the first image, the previous image, the next
+image or the last image. Also, since the images are loaded with Javascript,
+the user is given an indication of what the gallery is doing with red status
+text below the navigation buttons. Neat, eh? And all in one file -- no
+inclusion of this, that, and the next file, no dependencies. Woot!
+</p>
+</div>
+<!-- >>> -->
+<p style="text-align:right">Author: Dave McColl, 2005-04-13</p>
+</body>
+</html>
